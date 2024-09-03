@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Layout from './components/Layout';
+import { Route, Routes } from 'react-router-dom';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import User from './pages/User';
+import { UserContext } from './contexts';
 
 function App() {
+  const [userCtx, setUserCtx] = useState({
+    username: '',
+    access_token: '',
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{ userCtx, setUserCtx }}>
+      <Routes>
+        <Route element={<Layout />}>
+          {/* <Route path="/" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/" element={<Home />} />
+        </Route>
+      </Routes>
+    </UserContext.Provider>
   );
 }
 
